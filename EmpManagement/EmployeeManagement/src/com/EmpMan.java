@@ -1,4 +1,4 @@
-package com;
+package com.abc;
 //pulling from git
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,11 +9,12 @@ import java.sql.Statement;
 import java.util.*;
 import java.util.Scanner;
 
-class EmpMan {
+class test {
     // JDBC config – CHANGE user/password as per your MySQL
-    static final String DB_URL = "jdbc:mysql://localhost:3306/emdb";
+	static final String DB_URL = "jdbc:mysql://localhost:3306/empdb?useSSL=false";
+
     static final String USER   = "root";
-    static final String PASS   = "root";
+    static final String PASS   = "Root123$";
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -66,12 +67,12 @@ class EmpMan {
                             ps.setInt(4, sal);
 
                             ps.executeUpdate();
-                            System.out.println("Employee saved successfully!");
+                            System.out.println("Successfull");
                         } catch (SQLException e) {
                             System.out.println("DB Error: " + e.getMessage());
                         }
 
-                        System.out.println("Enter Yes to add more or No to stop:");
+                        System.out.println("Enter Yes to add and No to stop:");
                         String ans = sc.nextLine();
                         if (!ans.equalsIgnoreCase("Yes"))
                             break;
@@ -91,7 +92,7 @@ class EmpMan {
                             break;
                         }
 
-                        System.out.println("----- Employee Data -----");
+                        System.out.println("***** Employee Data *****");
                         while (rs.next()) {
                             String name = rs.getString("name");
                             int age = rs.getInt("age");
@@ -102,7 +103,7 @@ class EmpMan {
                             System.out.println("Age: " + age);
                             System.out.println("Designation: " + desg);
                             System.out.println("Salary: " + sal);
-                            System.out.println("------------------------");
+                            System.out.println("=================");
                         }
                     } catch (SQLException e) {
                         System.out.println("DB Error: " + e.getMessage());
@@ -148,7 +149,7 @@ class EmpMan {
                                 psUpdate.executeUpdate();
                             }
 
-                            System.out.println("Salary Updated for employee ID " + id + ": " + newSal);
+                            
                         }
                     } catch (SQLException e) {
                         System.out.println("DB Error: " + e.getMessage());
@@ -165,7 +166,3 @@ class EmpMan {
         }
     }
 }
-  
-
-  
-

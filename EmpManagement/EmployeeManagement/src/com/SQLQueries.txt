@@ -1,9 +1,12 @@
-SQL QUERIES
-======================
-1."INSERT INTO employees(name, age, designation, salary) VALUES(?, ?, ?, ?)"
 
-2."SELECT name, age, designation, salary FROM employees"
+create database empdb;
+use empdb;
 
-3."SELECT id, salary FROM employees WHERE name = ?"
 
-4."UPDATE employees SET salary = ? WHERE id = ?";
+CREATE TABLE employees (
+id INT AUTO_INCREMENT PRIMARY KEY,
+name VARCHAR(100) NOT NULL, age TINYINT NOT NULL,
+designation VARCHAR(50) NOT NULL, salary INT NOT NULL
+);
+show tables;
+select * from employees;
