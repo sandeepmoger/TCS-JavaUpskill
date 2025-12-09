@@ -1,0 +1,9 @@
+SQL QUERIES
+======================
+1."INSERT INTO employees(name, age, designation, salary) VALUES(?, ?, ?, ?)"
+
+2."SELECT name, age, designation, salary FROM employees"
+
+3."SELECT id, salary FROM employees WHERE name = ?"
+
+4."UPDATE employees SET salary = ? WHERE id = ?";

@@ -1,0 +1,131 @@
+import java.io.*;
+import java.util.Scanner;
+
+class EmpMan {
+    static final String FILE = "employees.txt";
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("\n1. Create\n2. Display\n3. Raise Salary\n4. Exit");
+            int ch = sc.nextInt(); sc.nextLine();
+
+            switch (ch) {
+                case 1:
+                    while (true) {
+                        System.out.println("Enter name:");
+                        String name = sc.nextLine();
+
+                        System.out.println("Enter age:");
+                        byte age = sc.nextByte(); sc.nextLine();
+
+                        System.out.println("Enter Designation:");
+                        String desg = sc.nextLine();
+
+                        int sal = 0;
+                        if (desg.equalsIgnoreCase("Programmer"))
+                            sal = 20000;
+                        else if (desg.equalsIgnoreCase("Manager"))
+                            sal = 25000;
+                        else if (desg.equalsIgnoreCase("TeamLead"))
+                            sal = 15000;
+                        else {
+                            System.out.println("Invalid Designation!");
+                            break;
+                        }
+
+                        try (FileWriter fw = new FileWriter(FILE, true)) {
+                            fw.write(name + "," + age + "," + desg + "," + sal + "\n");
+                        } catch (IOException e) {
+                            System.out.println("Error: " + e.getMessage());
+                        }
+
+                        System.out.println("Employee saved successfully!");
+                        System.out.println("Enter Yes to add more or No to stop:");
+                        String ans = sc.nextLine();
+                        if (!ans.equalsIgnoreCase("Yes"))
+                            break;
+                    }
+                    break;
+
+                case 2:
+                    File f = new File(FILE);
+                    if (!f.exists() || f.length() == 0) {
+                        System.out.println("No data Found! Please enter data");
+                        break;
+                    }
+
+                    try (BufferedReader br = new BufferedReader(new FileReader(FILE))) {
+                        String line;
+                        System.out.println("----- Employee Data -----");
+                        while ((line = br.readLine()) != null) {
+                            String[] arr = line.split(",");
+                            System.out.println("Name: " + arr[0]);
+                            System.out.println("Age: " + arr[1]);
+                            System.out.println("Designation: " + arr[2]);
+                            System.out.println("Salary: " + arr[3]);
+                            System.out.println("------------------------");
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Error: " + e.getMessage());
+                    }
+                    break;
+
+                case 3:
+                    System.out.println("Enter employee name to raise salary:");
+                    String raiseName = sc.nextLine();
+
+                    File tempFile = new File("temp.txt");
+                    boolean found = false;
+
+                    try (BufferedReader br = new BufferedReader(new FileReader(FILE));
+                         FileWriter fw = new FileWriter(tempFile)) {
+
+                        String line;
+                        while ((line = br.readLine()) != null) {
+                            String[] arr = line.split(",");
+                            String name = arr[0];
+                            byte age = Byte.parseByte(arr[1]);
+                            String desg = arr[2];
+                            int sal = Integer.parseInt(arr[3]);
+
+                            if (name.equalsIgnoreCase(raiseName)) {
+                                found = true;
+                                System.out.println("How much percentage? (1-10)");
+                                byte per = sc.nextByte(); sc.nextLine();
+
+                                if (per >= 1 && per <= 10) {
+                                    sal = sal + (sal * per / 100);
+                                    System.out.println("Salary Updated: " + sal);
+                                } else {
+                                    System.out.println("Invalid Percentage!");
+                                }
+                            }
+
+                            fw.write(name + "," + age + "," + desg + "," + sal + "\n");
+                        }
+                    } catch (IOException e) {
+                        System.out.println("Error: " + e.getMessage());
+                    }
+
+                    if (!found) {
+                        System.out.println("Employee not found!");
+                        tempFile.delete();
+                    } else {
+                        File orig = new File(FILE);
+                        orig.delete();
+                        tempFile.renameTo(orig);
+                    }
+                    break;
+
+                case 4:
+                    System.out.println("Thank you for using the application!");
+                    return;
+
+                default:
+                    System.out.println("Invalid Choice!");
+            }
+        }
+    }
+}

@@ -1,0 +1,5 @@
+raksha,23,programmer,20000
+vineeth,24,Manager,25000
+vani,25,teamlead,15300
+Veena ,45,Programmer,20000
+Vignesh,33,Manager,25500
